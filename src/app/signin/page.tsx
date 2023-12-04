@@ -4,6 +4,14 @@ import { Button, TextInput } from "@mantine/core";
 
 const SignIn: React.FC = () => {
   const { form, data, handleLogin } = useForm();
+
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter") {
+      e.preventDefault()
+      handleLogin(data)
+    }
+  }
+  
   return (
     <div className="flex flex-col items-center justify-center h-screen">
       <h1 className="text-4xl font-bold mb-8">Login</h1>
@@ -20,6 +28,7 @@ const SignIn: React.FC = () => {
           type="password"
           {...form.getInputProps("password")}
           placeholder="Senha"
+          onKeyDown={handleKeyDown}
         />
       </div>
       <Button
@@ -32,7 +41,7 @@ const SignIn: React.FC = () => {
         Fazer login
       </Button>
       <p className="mt-4">
-        Não tem uma conta? <a href="/register">Registrar</a>
+        Não tem uma conta? <a href="/register" className="text-[#05a]">Registrar</a>
       </p>
     </div>
   );

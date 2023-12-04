@@ -2,7 +2,7 @@
 import { Button, TextInput } from "@mantine/core";
 import { toast } from "react-toastify";
 import useForm from "@/data/hooks/useForm";
-import User from "@/app/logic/core/user/User";
+import User from "@/logic/core/user/User";
 import { useRouter, usePathname } from "next/navigation";
 
 const Register: React.FC = () => {
@@ -19,7 +19,7 @@ const Register: React.FC = () => {
     <div className="flex flex-col items-center justify-center h-screen">
       <h1 className="text-4xl font-bold mb-8">Registrar</h1>
       <form
-        className="flex flex-col items-center justify-center h-screen"
+        className="flex flex-col items-center justify-center"
         onSubmit={form.onSubmit(() => {
           users.push(data);
           localStorage.setItem(`users`, JSON.stringify(users));
@@ -71,10 +71,13 @@ const Register: React.FC = () => {
             {...form.getInputProps("confirmPassword")}
           />
         </div>
-        <Button type="submit" className="mt-8" color="blue">
+        <Button type="submit" className="my-8" color="blue">
           Cadastrar
         </Button>
       </form>
+      <p>
+        Já possui uma conta? <a href="/signin" className="text-[#05a]">Fazer login</a>
+      </p>
     </div>
   );
 };

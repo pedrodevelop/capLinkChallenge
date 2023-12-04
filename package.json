@@ -12,6 +12,8 @@
     "@mantine/core": "^7.2.2",
     "@mantine/form": "^7.2.2",
     "@mantine/hooks": "^7.2.2",
+    "@tabler/icons-react": "^2.42.0",
+    "lorem-ipsum": "^2.0.8",
     "next": "14.0.3",
     "react": "^18",
     "react-dom": "^18",
