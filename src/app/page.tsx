@@ -3,11 +3,9 @@ import { useState, useContext } from "react";
 import { CartDrawer, Header, ProductCard } from "./components";
 import { Checkbox, TextInput, SimpleGrid } from "@mantine/core";
 import { IconSearch } from "@tabler/icons-react";
-import { useRouter } from "next/navigation";
 import ProductsContext from "@/data/contexts/ProductsContext";
 
 const MainPage: React.FC = () => {
-  const router = useRouter();
   const [openDrawer, setOpenDrawer] = useState(false);
   const {
     products,

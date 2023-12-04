@@ -3,6 +3,7 @@ import { createContext, useEffect, useMemo, useState } from "react";
 import { generateRandomProductsNames } from "@/logic/utils/Product";
 import { loremIpsum } from "lorem-ipsum";
 import Product from "@/logic/core/product/Product";
+import { usePathname } from "next/navigation";
 
 interface IProductsProps {
   products: Product[];
@@ -21,6 +22,7 @@ const ProductsContext = createContext<IProductsProps>({
 export const ProductsProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
+  const pathName = usePathname();
   const [verbs, setVerbs] = useState<string[]>([]);
   const [adjectives, setAdjectives] = useState<string[]>([]);
   const [products, setProducts] = useState<Product[]>([]);
@@ -29,8 +31,15 @@ export const ProductsProvider: React.FC<{ children: React.ReactNode }> = ({
   const [filterFavourite, setFilterFavourite] = useState<boolean>(false);
 
   useEffect(() => {
+    if (pathName == "/") {
+      setProducts(allProducts);
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [pathName]);
+
+  useEffect(() => {
     const getVerbsData = async () => {
-      const res = await fetch(`${window.location}/api/verbs`);
+      const res = await fetch(`${window.location.origin}/api/verbs`);
 
       if (!res.ok) {
         throw new Error("Failed to fetch data");
@@ -40,7 +49,7 @@ export const ProductsProvider: React.FC<{ children: React.ReactNode }> = ({
     };
 
     const getAdjectivesData = async () => {
-      const res = await fetch(`${window.location}/api/adjectives`);
+      const res = await fetch(`${window.location.origin}/api/adjectives`);
 
       if (!res.ok) {
         throw new Error("Failed to fetch data");
