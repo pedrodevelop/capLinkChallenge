@@ -1,9 +1,14 @@
-import User from "@/app/logic/core/user/User";
+import User from "@/logic/core/user/User";
 import { useForm as mantineUseForm } from "@mantine/form";
 import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
 
-/** A hook to centralize form events */
+/**
+ * Custom hook for handling form data and validation.
+ * 
+ * @param pathName Optional url path name for conditional validation.
+ * @returns An object containing the form, data, and handleLogin function.
+ */
 const useForm = (pathName?: string) => {
   const router = useRouter()
   let users: User[] = [];

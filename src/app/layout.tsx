@@ -4,6 +4,7 @@ import type { Metadata } from "next";
 import { MantineProvider } from "@mantine/core";
 import { ColorSchemeScript } from "@mantine/core";
 import { ToastContainer } from "react-toastify";
+import { ProductsProvider } from "@/data/contexts/ProductsContext";
 import "react-toastify/dist/ReactToastify.min.css";
 
 export const metadata: Metadata = {
@@ -23,11 +24,10 @@ export default function RootLayout({
       </head>
       <body>
         <MantineProvider defaultColorScheme="dark">
-          {children}
+          <ProductsProvider>{children}</ProductsProvider>
           <ToastContainer />
         </MantineProvider>
       </body>
     </html>
   );
 }
-
