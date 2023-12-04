@@ -1,12 +1,19 @@
 import { FormatMoney } from "@/logic/utils/Money";
 import { ActionIcon, Image, rem } from "@mantine/core";
 import { IconHeart } from "@tabler/icons-react";
+import { useRouter } from "next/navigation";
 
 interface IProductCardProps {
+  /** Product's name */
   productName: string;
+  /** Product's value */
   productValue: number;
+  /** Product's image url */
   productImage: string;
+  /** Boolean to check if the product has been added
+   * as a favourite product */
   favourite: boolean;
+  /** Function to favourite a product */
   handleLikeOrDislike: () => void;
 }
 
@@ -17,16 +24,17 @@ export const ProductCard: React.FC<IProductCardProps> = ({
   favourite,
   handleLikeOrDislike,
 }) => {
+  const router = useRouter();
+
   return (
-    <div className="flex flex-col max-md:mx-3 max-md:my-2 md:mt-2 border rounded-md border-[#262626] bg-black">
+    <div
+      onClick={() => {
+        router.push(`/${productName}`);
+      }}
+      className="flex flex-col max-md:mx-3 max-md:my-2 md:mt-2 border rounded-md border-[#262626] bg-black cursor-pointer"
+    >
       <div>
-        <Image
-          h={200}
-          w="100%"
-          fit="fill"
-          alt="Product-image"
-          src={productImage}
-        />
+        <Image h={200} fit="fill" alt="Product-image" src={productImage} />
       </div>
       <div className="flex flex-row items-center justify-between">
         <div className="flex flex-row w-fit my-3 mx-3 border border-[#262626] rounded-3xl items-center">
