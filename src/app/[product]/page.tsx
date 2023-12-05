@@ -16,22 +16,19 @@ interface PageProps {
 
 const ProductDetail: React.FC<PageProps> = ({ params }) => {
   const router = useRouter();
-  const [openDrawer, setOpenDrawer] = useState(false);
   const { products, handleLikeOrDislike } = useContext(ProductsContext);
   const { handleAddProductToCart } = useContext(CartContext);
 
-  const handleOpenDrawer = () => {
-    setOpenDrawer(true);
-  };
-
-  const handleCloseDrawer = () => {
-    setOpenDrawer(false);
-  };
+  const { openCartDrawer, handleOpenCartDrawer, handleCloseCartDrawer } =
+    useContext(CartContext);
 
   return (
     <div>
-      <Header handleOpenCart={handleOpenDrawer} />
-      <CartDrawer openDrawer={openDrawer} closeDrawer={handleCloseDrawer} />
+      <Header handleOpenCart={handleOpenCartDrawer} />
+      <CartDrawer
+        openDrawer={openCartDrawer}
+        closeDrawer={handleCloseCartDrawer}
+      />
       <div className="flex flex-col items-start">
         <Button
           variant="transparent"
@@ -96,7 +93,7 @@ const ProductDetail: React.FC<PageProps> = ({ params }) => {
                       color="#2563eb"
                       onClick={() => {
                         handleAddProductToCart(el.name);
-                        setOpenDrawer(true);
+                        handleOpenCartDrawer();
                       }}
                     >
                       Add to cart

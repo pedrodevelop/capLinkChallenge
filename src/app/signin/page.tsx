@@ -1,9 +1,11 @@
 "use client";
 import useForm from "@/data/hooks/useForm";
 import { Button, TextInput } from "@mantine/core";
+import { useRouter } from "next/navigation";
 
 const SignIn: React.FC = () => {
   const { form, data, handleLogin } = useForm();
+  const router = useRouter()
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {
@@ -41,7 +43,7 @@ const SignIn: React.FC = () => {
         Fazer login
       </Button>
       <p className="mt-4">
-        Não tem uma conta? <a href="/register" className="text-[#05a]">Registrar</a>
+        Não tem uma conta? <a onClick={() => router.push('/register')} className="text-[#05a] cursor-pointer">Registrar</a>
       </p>
     </div>
   );

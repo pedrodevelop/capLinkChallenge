@@ -1,16 +1,17 @@
 import User from "@/logic/core/user/User";
 import { useForm as mantineUseForm } from "@mantine/form";
-import { useRouter } from "next/navigation";
+import { useContext } from "react";
 import { toast } from "react-toastify";
+import AuthContext from "../contexts/AuthContext";
 
 /**
  * Custom hook for handling form data and validation.
- * 
+ *
  * @param pathName Optional url path name for conditional validation.
  * @returns An object containing the form, data, and handleLogin function.
  */
 const useForm = (pathName?: string) => {
-  const router = useRouter()
+  const { contextLogin } = useContext(AuthContext);
   let users: User[] = [];
   if (typeof window !== "undefined") {
     users = JSON.parse(localStorage.getItem("users")!);
@@ -61,12 +62,8 @@ const useForm = (pathName?: string) => {
   });
 
   const handleLogin = (userData: Partial<User>) => {
-    users.filter(
-      (user: User) =>
-        user.email == userData.email && user.password == userData.password
-    ).length > 0 ? 
-      router.push('/')
-      : toast.error("Email ou senha incorretos, tente novamente", {
+    if (!users) {
+      return toast.error("Email ou senha incorretos, tente novamente", {
         position: "bottom-right",
         autoClose: 2500,
         hideProgressBar: true,
@@ -76,6 +73,31 @@ const useForm = (pathName?: string) => {
         progress: undefined,
         theme: "light",
       });
+    }
+    const user = users.filter(
+      (user: User) =>
+        user.email == userData.email && user.password == userData.password
+    );
+    if (user.length > 0) {
+      const userData = {
+        name: form.values.name != "" ? form.values.name : user[0].name,
+        email: form.values.email,
+        mobilePhone: form.values.mobilePhone,
+        password: form.values.password,
+      };
+      contextLogin(userData);
+    } else {
+      toast.error("Email ou senha incorretos, tente novamente", {
+        position: "bottom-right",
+        autoClose: 2500,
+        hideProgressBar: true,
+        closeOnClick: false,
+        pauseOnHover: false,
+        draggable: false,
+        progress: undefined,
+        theme: "light",
+      });
+    }
   };
 
   return {

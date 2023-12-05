@@ -46,6 +46,7 @@ const Register: React.FC = () => {
         <div className="w-full sm:w-64 mt-4">
           <TextInput
             label="Número de celular"
+            placeholder="(00) 00000-0000"
             {...form.getInputProps("mobilePhone")}
           />
         </div>
@@ -76,7 +77,7 @@ const Register: React.FC = () => {
         </Button>
       </form>
       <p>
-        Já possui uma conta? <a href="/signin" className="text-[#05a]">Fazer login</a>
+        Já possui uma conta? <a onClick={() => router.push("/signin")} className="text-[#05a] cursor-pointer">Fazer login</a>
       </p>
     </div>
   );

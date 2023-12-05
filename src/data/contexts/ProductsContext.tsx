@@ -1,13 +1,16 @@
 "use client";
-import { createContext, useEffect, useMemo, useState } from "react";
+import { createContext, useContext, useEffect, useMemo, useState } from "react";
 import { generateRandomProductsNames } from "@/logic/utils/Product";
 import { loremIpsum } from "lorem-ipsum";
-import Product from "@/logic/core/product/Product";
 import { usePathname } from "next/navigation";
+import Product from "@/logic/core/product/Product";
+import AuthContext from "./AuthContext";
 
 interface IProductsProps {
   /** An array of products */
   products: Product[];
+  /** Boolean to check if the products are loaded */
+  loading: boolean;
   /** Function called to favourite or desfavourite a product */
   handleLikeOrDislike: (product: string) => void;
   /** Function called to filter favourites products */
@@ -18,6 +21,7 @@ interface IProductsProps {
 
 const ProductsContext = createContext<IProductsProps>({
   products: [],
+  loading: true,
   handleLikeOrDislike: () => {},
   handleFilterFavourites: () => {},
   handleFilterByText: () => {},
@@ -27,9 +31,11 @@ export const ProductsProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
   const pathName = usePathname();
+  const { user, handleForceLogin } = useContext(AuthContext);
   const [verbs, setVerbs] = useState<string[]>([]);
   const [adjectives, setAdjectives] = useState<string[]>([]);
   const [products, setProducts] = useState<Product[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
   const [allProducts, setAllProducts] = useState<Product[]>([]);
   const [searchText, setSearchText] = useState<string>("");
   const [filterFavourite, setFilterFavourite] = useState<boolean>(false);
@@ -38,7 +44,7 @@ export const ProductsProvider: React.FC<{ children: React.ReactNode }> = ({
     if (pathName == "/") {
       setProducts(allProducts);
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pathName]);
 
   useEffect(() => {
@@ -102,63 +108,68 @@ export const ProductsProvider: React.FC<{ children: React.ReactNode }> = ({
           image: `https://picsum.photos/seed/${imageId}/200`,
           value: value,
           favourite: false,
-          count: 1
+          count: 1,
         };
 
         _products.push(newProductData);
       });
       setProducts(_products);
       setAllProducts(_products);
+      setLoading(false)
     }
   }, [verbs, adjectives]);
 
   const handleLikeOrDislike = (product: string) => {
-    if (filterFavourite) {
-      const updatedProducts = products.map((productItem) => {
-        if (productItem.name === product) {
-          return {
-            ...productItem,
-            favourite: !productItem.favourite,
-          };
-        }
-        return productItem;
-      });
-  
-      const updatedAllProducts = allProducts.map((productItem) => {
-        if (productItem.name === product) {
-          return {
-            ...productItem,
-            favourite: !productItem.favourite,
-          };
-        }
-        return productItem;
-      });
-      const _products = updatedProducts.filter((el) => el.favourite == true)
-      setProducts(_products);
-      setAllProducts(updatedAllProducts);
+    if (!user.name && !user.email) {
+      handleForceLogin(pathName);
     } else {
-    const updatedProducts = products.map((productItem) => {
-      if (productItem.name === product) {
-        return {
-          ...productItem,
-          favourite: !productItem.favourite,
-        };
-      }
-      return productItem;
-    });
+      if (filterFavourite) {
+        const updatedProducts = products.map((productItem) => {
+          if (productItem.name === product) {
+            return {
+              ...productItem,
+              favourite: !productItem.favourite,
+            };
+          }
+          return productItem;
+        });
 
-    const updatedAllProducts = allProducts.map((productItem) => {
-      if (productItem.name === product) {
-        return {
-          ...productItem,
-          favourite: !productItem.favourite,
-        };
+        const updatedAllProducts = allProducts.map((productItem) => {
+          if (productItem.name === product) {
+            return {
+              ...productItem,
+              favourite: !productItem.favourite,
+            };
+          }
+          return productItem;
+        });
+        const _products = updatedProducts.filter((el) => el.favourite == true);
+        setProducts(_products);
+        setAllProducts(updatedAllProducts);
+      } else {
+        const updatedProducts = products.map((productItem) => {
+          if (productItem.name === product) {
+            return {
+              ...productItem,
+              favourite: !productItem.favourite,
+            };
+          }
+          return productItem;
+        });
+
+        const updatedAllProducts = allProducts.map((productItem) => {
+          if (productItem.name === product) {
+            return {
+              ...productItem,
+              favourite: !productItem.favourite,
+            };
+          }
+          return productItem;
+        });
+        setProducts(updatedProducts);
+        setAllProducts(updatedAllProducts);
       }
-      return productItem;
-    });
-    setProducts(updatedProducts);
-    setAllProducts(updatedAllProducts);
-  }
+    }
   };
 
   const handleFilterFavourites = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -219,6 +230,7 @@ export const ProductsProvider: React.FC<{ children: React.ReactNode }> = ({
     <ProductsContext.Provider
       value={{
         products,
+        loading,
         handleLikeOrDislike,
         handleFilterFavourites,
         handleFilterByText,
