@@ -9,3 +9,28 @@ html {
   height: 100vh;
   overflow-x: hidden;
 }
+
+.mantine-Drawer-content {
+  background-color: #000 !important;
+  padding: 1rem !important;
+}
+
+.mantine-Drawer-header {
+  background-color: #000 !important;
+  margin-bottom: 20px;
+}
+
+.mantine-Drawer-title {
+  font-size: 1.125rem !important;
+  font-weight: 700 !important;
+}
+
+.mantine-Drawer-body {
+  display: flex;
+  justify-content: space-between;
+  height: 90% !important;
+}
+
+.mantine-Drawer-close {
+  color: #fff !important;
+}

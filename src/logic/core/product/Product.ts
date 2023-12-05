@@ -4,4 +4,5 @@ export default interface Product {
   image: string
   description: string
   favourite: boolean
+  count: number
 }

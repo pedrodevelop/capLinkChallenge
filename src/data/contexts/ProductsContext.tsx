@@ -6,9 +6,13 @@ import Product from "@/logic/core/product/Product";
 import { usePathname } from "next/navigation";
 
 interface IProductsProps {
+  /** An array of products */
   products: Product[];
+  /** Function called to favourite or desfavourite a product */
   handleLikeOrDislike: (product: string) => void;
+  /** Function called to filter favourites products */
   handleFilterFavourites: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  /** Function called to filter products by name */
   handleFilterByText: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
@@ -95,9 +99,10 @@ export const ProductsProvider: React.FC<{ children: React.ReactNode }> = ({
         const newProductData: Product = {
           name: product,
           description: loremIpsumText,
-          image: `https://picsum.photos/seed/${imageId}/200/300`,
+          image: `https://picsum.photos/seed/${imageId}/200`,
           value: value,
           favourite: false,
+          count: 1
         };
 
         _products.push(newProductData);
@@ -108,6 +113,30 @@ export const ProductsProvider: React.FC<{ children: React.ReactNode }> = ({
   }, [verbs, adjectives]);
 
   const handleLikeOrDislike = (product: string) => {
+    if (filterFavourite) {
+      const updatedProducts = products.map((productItem) => {
+        if (productItem.name === product) {
+          return {
+            ...productItem,
+            favourite: !productItem.favourite,
+          };
+        }
+        return productItem;
+      });
+  
+      const updatedAllProducts = allProducts.map((productItem) => {
+        if (productItem.name === product) {
+          return {
+            ...productItem,
+            favourite: !productItem.favourite,
+          };
+        }
+        return productItem;
+      });
+      const _products = updatedProducts.filter((el) => el.favourite == true)
+      setProducts(_products);
+      setAllProducts(updatedAllProducts);
+    } else {
     const updatedProducts = products.map((productItem) => {
       if (productItem.name === product) {
         return {
@@ -129,6 +158,7 @@ export const ProductsProvider: React.FC<{ children: React.ReactNode }> = ({
     });
     setProducts(updatedProducts);
     setAllProducts(updatedAllProducts);
+  }
   };
 
   const handleFilterFavourites = (e: React.ChangeEvent<HTMLInputElement>) => {
