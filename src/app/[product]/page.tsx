@@ -1,11 +1,12 @@
 "use client";
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useMemo } from "react";
 import { useRouter } from "next/navigation";
 import { Button, Image, Divider, ActionIcon, rem } from "@mantine/core";
 import { CartDrawer, Header } from "@/app/components/index";
 import { FormatMoney } from "@/logic/utils/Money";
 import { IconPlus, IconHeart } from "@tabler/icons-react";
 import ProductsContext from "@/data/contexts/ProductsContext";
+import CartContext from "@/data/contexts/CartContext";
 
 interface PageProps {
   params: {
@@ -17,6 +18,7 @@ const ProductDetail: React.FC<PageProps> = ({ params }) => {
   const router = useRouter();
   const [openDrawer, setOpenDrawer] = useState(false);
   const { products, handleLikeOrDislike } = useContext(ProductsContext);
+  const { handleAddProductToCart } = useContext(CartContext);
 
   const handleOpenDrawer = () => {
     setOpenDrawer(true);
@@ -92,6 +94,10 @@ const ProductDetail: React.FC<PageProps> = ({ params }) => {
                       size="xl"
                       radius="xl"
                       color="#2563eb"
+                      onClick={() => {
+                        handleAddProductToCart(el.name);
+                        setOpenDrawer(true);
+                      }}
                     >
                       Add to cart
                     </Button>

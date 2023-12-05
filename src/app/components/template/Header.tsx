@@ -1,11 +1,16 @@
+import { useContext } from "react";
 import { ActionIcon, ThemeIcon, Indicator } from "@mantine/core";
 import { IconBrandVercel, IconShoppingCart } from "@tabler/icons-react";
+import CartContext from "@/data/contexts/CartContext";
 
 interface IHeaderProps {
+  /** Function called to open app cart */
   handleOpenCart: () => void;
 }
 
 export const Header: React.FC<IHeaderProps> = ({ handleOpenCart }) => {
+  const { productsOnCart } = useContext(CartContext);
+
   return (
     <nav className="flex justify-between items-center p-5 lg:px-6">
       <div className="flex w-full items-center justify-center lg:justify-start">
@@ -21,7 +26,12 @@ export const Header: React.FC<IHeaderProps> = ({ handleOpenCart }) => {
         </div>
       </div>
       <div>
-        <Indicator inline disabled label={0} size={22}>
+        <Indicator
+          inline
+          disabled={productsOnCart.length == 0}
+          label={productsOnCart.length}
+          size={16}
+        >
           <ActionIcon
             variant="default"
             className="border border-neutral-700 p-3 text-white"
