@@ -16,8 +16,13 @@ export const CartDrawer: React.FC<ICartDrawerProps> = ({
   openDrawer,
   closeDrawer,
 }) => {
-  const { productsOnCart, totalValue, handleRemoveProductFromCart, handleIncrementOrDecrementProductCount } =
-    useContext(CartContext);
+  const {
+    productsOnCart,
+    totalValue,
+    handleRemoveProductFromCart,
+    handleIncrementOrDecrementProductCount,
+    handleCheckout,
+  } = useContext(CartContext);
 
   return (
     <>
@@ -34,7 +39,7 @@ export const CartDrawer: React.FC<ICartDrawerProps> = ({
       >
         {productsOnCart.length > 0 ? (
           <div className="flex flex-col justify-between w-full">
-            <div className="pt-5 max-h-[75%] overflow-y-scroll">
+            <div className="pt-5 max-h-[75%] overflow-y-auto">
               {productsOnCart.map((el, index) => (
                 <CartProductCard
                   key={el.name}
@@ -46,7 +51,7 @@ export const CartDrawer: React.FC<ICartDrawerProps> = ({
                     handleRemoveProductFromCart(index);
                   }}
                   handleIncrementOrDecrementProductCount={(op) => {
-                    handleIncrementOrDecrementProductCount(op, el.name)
+                    handleIncrementOrDecrementProductCount(op, el.name);
                   }}
                 />
               ))}
@@ -59,7 +64,14 @@ export const CartDrawer: React.FC<ICartDrawerProps> = ({
                 </span>
               </div>
               <Divider my="xs" />
-              <Button fullWidth mt="md" size="lg" radius="xl" color="#2563eb">
+              <Button
+                onClick={() => handleCheckout()}
+                fullWidth
+                mt="md"
+                size="lg"
+                radius="xl"
+                color="#2563eb"
+              >
                 Proceed to Checkout
               </Button>
             </div>

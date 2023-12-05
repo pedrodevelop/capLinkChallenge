@@ -31,7 +31,7 @@ export const CartProductCard: React.FC<ICartProductCardProps> = ({
   productImage,
   productCount,
   handleRemoveProductFromCart,
-  handleIncrementOrDecrementProductCount
+  handleIncrementOrDecrementProductCount,
 }) => {
   return (
     <div>
@@ -39,14 +39,11 @@ export const CartProductCard: React.FC<ICartProductCardProps> = ({
         <div>
           <Indicator
             inline
-            label={
-              <IconX
-                size="xs"
-                onClick={() => {
-                  handleRemoveProductFromCart();
-                }}
-              />
-            }
+            className="cursor-pointer"
+            onClick={() => {
+              handleRemoveProductFromCart();
+            }}
+            label={<IconX style={{ width: rem(15), height: rem(15) }} />}
             size={16}
           >
             <Image
@@ -78,7 +75,7 @@ export const CartProductCard: React.FC<ICartProductCardProps> = ({
                 style={{ width: rem(16), height: rem(16) }}
                 onClick={(e) => {
                   e.stopPropagation();
-                  handleIncrementOrDecrementProductCount('decrement')
+                  handleIncrementOrDecrementProductCount("decrement");
                 }}
               />
             }
@@ -87,7 +84,7 @@ export const CartProductCard: React.FC<ICartProductCardProps> = ({
                 style={{ width: rem(16), height: rem(16) }}
                 onClick={(e) => {
                   e.stopPropagation();
-                  handleIncrementOrDecrementProductCount('increment')
+                  handleIncrementOrDecrementProductCount("increment");
                 }}
               />
             }
