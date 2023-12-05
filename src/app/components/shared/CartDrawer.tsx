@@ -65,12 +65,12 @@ export const CartDrawer: React.FC<ICartDrawerProps> = ({
               </div>
               <Divider my="xs" />
               <Button
+                className="bg-[#2c5fe6]"
                 onClick={() => handleCheckout()}
                 fullWidth
                 mt="md"
                 size="lg"
                 radius="xl"
-                color="#2563eb"
               >
                 Proceed to Checkout
               </Button>

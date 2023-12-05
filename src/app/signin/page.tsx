@@ -34,8 +34,7 @@ const SignIn: React.FC = () => {
         />
       </div>
       <Button
-        className="mt-8"
-        color="blue"
+        className="mt-8 bg-[#2c5fe6]"
         onClick={() => {
           handleLogin(data);
         }}

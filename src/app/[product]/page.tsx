@@ -83,6 +83,7 @@ const ProductDetail: React.FC<PageProps> = ({ params }) => {
                   <div className="mb-10">{el.description}</div>
                   <div>
                     <Button
+                      className="bg-[#2c5fe6]"
                       justify="space-between"
                       fullWidth
                       leftSection={<IconPlus />}
@@ -90,7 +91,6 @@ const ProductDetail: React.FC<PageProps> = ({ params }) => {
                       mt="md"
                       size="xl"
                       radius="xl"
-                      color="#2563eb"
                       onClick={() => {
                         handleAddProductToCart(el.name);
                         handleOpenCartDrawer();

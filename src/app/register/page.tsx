@@ -72,7 +72,7 @@ const Register: React.FC = () => {
             {...form.getInputProps("confirmPassword")}
           />
         </div>
-        <Button type="submit" className="my-8" color="blue">
+        <Button type="submit" className="my-8 bg-[#2c5fe6]">
           Cadastrar
         </Button>
       </form>
