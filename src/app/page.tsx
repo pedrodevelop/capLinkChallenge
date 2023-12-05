@@ -25,7 +25,7 @@ const MainPage: React.FC = () => {
         openDrawer={openCartDrawer}
         closeDrawer={handleCloseCartDrawer}
       />
-      <div className="flex flex-col md:flex-row w-[95%] h-full m-auto">
+      <div className={`flex flex-col md:flex-row w-[95%] ${loading && 'h-full'} m-auto`}>
         <aside className="w-full md:w-1/3 lg:w-1/4 p-3">
           <TextInput
             leftSectionPointerEvents="none"

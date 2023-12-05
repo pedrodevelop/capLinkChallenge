@@ -47,8 +47,8 @@ export const ProductCard: React.FC<IProductCardProps> = ({
         </div>
         <ActionIcon
           variant={favourite ? "filled" : "transparent"}
-          color={favourite ? "red" : "white"}
-          className="mr-3"
+          color="white"
+          className={`mr-3 ${favourite ? "bg-red-600" : "bg-transparent"}`}
           onClick={(e) => {
             e.stopPropagation();
             handleLikeOrDislike();

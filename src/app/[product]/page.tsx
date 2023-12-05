@@ -66,8 +66,10 @@ const ProductDetail: React.FC<PageProps> = ({ params }) => {
                     </div>
                     <ActionIcon
                       variant={el.favourite ? "filled" : "transparent"}
-                      color={el.favourite ? "red" : "white"}
-                      className="mr-3"
+                      color="white"
+                      className={`mr-3 ${
+                        el.favourite ? "bg-red-600" : "bg-transparent"
+                      }`}
                       onClick={(e) => {
                         e.stopPropagation();
                         handleLikeOrDislike(el.name);
